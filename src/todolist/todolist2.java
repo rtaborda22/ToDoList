@@ -4,6 +4,10 @@
  */
 package todolist;
 
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Aluno
@@ -11,12 +15,29 @@ package todolist;
 public class todolist2 extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(todolist2.class.getName());
-
+    DefaultTableModel model;
+    
+    private static final String CONCLUIDA = "Concluída";
+    private static final String NAO_CONCLUIDA  = "Não concluída";
+    
+    private final ArrayList<String> tarefas = new ArrayList<>();
+    
+    private final ArrayList<String> tarefasFiltradas = new ArrayList<>();
     /**
      * Creates new form todolist2
      */
     public todolist2() {
         initComponents();
+        
+        setLocationRelativeTo(null);
+        
+        model = (DefaultTableModel) jTableTarefas.getModel();
+        
+        
+            
+        
+        
+        
     }
 
     /**
@@ -109,9 +130,58 @@ public class todolist2 extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAdicionarTarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAdicionarTarefaActionPerformed
-        // TODO add your handling code here:
+        if (jTextFieldDescricaoTarefa.getText().isEmpty()){
+        JOptionPane.showMessageDialog(null, "A descrição da tarefa não pode ser vazia");
+        return;
+        }
+        
+        if (hasTarefaRepetida(jTextFieldDescricaoTarefa.getText())){
+            JOptionPane.showMessageDialog(null, "A tarefa "+ jTextFieldDescricaoTarefa.getText() + " ja existe.");
+            return;
+        }
+       
+        tarefas.add(jTextFieldDescricaoTarefa.getText() + ";" + NAO_CONCLUIDA);
+        
+        preencherTabela();
+        
+        jTextFieldDescricaoTarefa.setText("");
     }//GEN-LAST:event_jButtonAdicionarTarefaActionPerformed
-
+    
+        public boolean hasTarefaRepetida(String novaTarefa){
+            for (String tarefa : tarefas){
+            String dados[] = tarefa.split(";");
+            
+             if (novaTarefa.toLowerCase().equals(dados[0].toLowerCase())){
+                return true;
+                
+        }
+     }
+    
+    return false;
+        }
+        
+        private void preencherTabela(){
+            ArrayList<String> listaTarefas;
+            
+            if (jComboBoxFiltroStatus.getSelectedIndex() > 0){
+                listaTarefas = tarefasFiltradas;
+            }else{
+                listaTarefas = tarefas;
+            }
+            model.setRowCount(0);
+            
+            for (String tarefa : listaTarefas){
+                String[] dados = tarefa.split(";");
+                
+                model.addRow(new Object[]{
+                    dados [0],
+                    dados [1],
+                });
+                
+            
+            }
+        }
+    
     private void jComboBoxFiltroStatusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxFiltroStatusActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxFiltroStatusActionPerformed
