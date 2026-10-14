@@ -83,11 +83,11 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Tarefa", "Status", "Data"
+                "Tarefa", "Status", "Data", "Data da Conclusão"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -320,7 +320,7 @@ public class TelaToDoListV1 extends javax.swing.JFrame {
             model.addRow(new Object[]{
                 dados[0],
                 dados[1],
-                dados[2]
+                dados[2] 
             });
         }
     }
